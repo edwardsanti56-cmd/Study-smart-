@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Study - Uganda NCDC Revision</title>
+    <meta name="description" content="Smart Study: The ultimate revision companion for Ugandan students. Detailed NCDC aligned notes for S1-S4 powered by AI.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f0fdf4; /* Green-50 equivalent */
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #86efac; /* Green-300 */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #22c55e; /* Green-500 */
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .markdown-body h1 { font-size: 1.8em; font-weight: 800; margin-top: 1em; margin-bottom: 0.5em; color: #111827; }
+        .markdown-body h2 { font-size: 1.5em; font-weight: 700; margin-top: 1em; margin-bottom: 0.5em; color: #064e3b; border-bottom: 2px solid #10b981; padding-bottom: 4px; display: inline-block; }
+        .markdown-body h3 { font-size: 1.2em; font-weight: 600; margin-top: 1em; margin-bottom: 0.5em; color: #374151; }
+        .markdown-body p { margin-bottom: 1em; line-height: 1.7; color: #4b5563; }
+        .markdown-body ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 1em; }
+        .markdown-body ol { list-style-type: decimal; padding-left: 1.5em; margin-bottom: 1em; }
+        .markdown-body li { margin-bottom: 0.5em; }
+        .markdown-body strong { color: #000; font-weight: 700; }
+        .markdown-body blockquote { border-left: 4px solid #10b981; padding-left: 1em; color: #065f46; font-style: italic; background: #ecfdf5; padding: 1rem; border-radius: 0 8px 8px 0; margin-bottom: 1rem; }
+        .markdown-body code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-family: monospace; color: #16a34a; }
+        .markdown-body pre { background: #1f2937; color: white; padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1rem; }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "marked": "https://aistudiocdn.com/marked@^17.0.0"
+  }
+}
+</script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+</body>
+</html>
