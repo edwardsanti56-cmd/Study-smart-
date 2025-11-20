@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 import { GoogleGenAI, Type, ChatSession } from "@google/genai";
@@ -91,6 +90,51 @@ const Loader = ({ text }: { text: string }) => (
       </div>
     </div>
     <p className="text-gray-600 font-medium mt-4 animate-pulse tracking-wide">{text}</p>
+  </div>
+);
+
+const MissingKeyError = () => (
+  <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4 animate-fade-in">
+    <div className="bg-white max-w-md w-full rounded-3xl shadow-xl overflow-hidden border border-gray-200">
+      <div className="bg-red-50 p-6 flex flex-col items-center border-b border-red-100">
+        <div className="w-16 h-16 bg-red-100 text-red-500 rounded-full flex items-center justify-center text-2xl mb-4 shadow-sm">
+          <i className="fas fa-key"></i>
+        </div>
+        <h2 className="text-2xl font-black text-gray-900 text-center">Setup Required</h2>
+      </div>
+      <div className="p-8">
+        <p className="text-gray-600 text-center mb-6 leading-relaxed">
+          The application is missing the <strong>API_KEY</strong> environment variable.
+        </p>
+        
+        <a 
+            href="https://aistudio.google.com/app/apikey" 
+            target="_blank"
+            rel="noreferrer"
+            className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl text-center transition-colors mb-6 shadow-lg shadow-blue-100 flex items-center justify-center gap-2"
+        >
+            <i className="fas fa-external-link-alt"></i> Get Free Gemini API Key
+        </a>
+
+        <div className="bg-gray-50 rounded-xl p-4 text-sm text-gray-700 border border-gray-200 mb-6">
+          <p className="font-bold mb-2 text-gray-900">Deployment Setup (Vercel):</p>
+          <ol className="list-decimal pl-4 space-y-2">
+            <li>Click the button above to generate a key.</li>
+            <li>Go to your Vercel Project <strong>Settings</strong>.</li>
+            <li>Select <strong>Environment Variables</strong>.</li>
+            <li>Key: <code className="bg-gray-200 px-1 rounded font-mono">API_KEY</code></li>
+            <li>Value: Paste your new key.</li>
+            <li><strong>Redeploy</strong> your application.</li>
+          </ol>
+        </div>
+        <button 
+          onClick={() => window.location.reload()} 
+          className="w-full bg-black text-white font-bold py-4 rounded-xl hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
+        >
+          <i className="fas fa-sync-alt"></i> Reload Page
+        </button>
+      </div>
+    </div>
   </div>
 );
 
@@ -675,11 +719,13 @@ const App = () => {
   const [loading, setLoading] = useState(false);
 
   // API Client
-  // Ensure process.env.API_KEY is available
-  const apiKey = process.env.API_KEY;
+  // Ensure process.env.API_KEY is available. Handle safe access for environments where process might be undefined.
+  const apiKey = typeof process !== 'undefined' && process.env ? process.env.API_KEY : undefined;
+  
   if (!apiKey) {
-    return <div className="p-10 text-red-500">Error: API_KEY is missing from environment variables.</div>;
+    return <MissingKeyError />;
   }
+  
   const ai = new GoogleGenAI({ apiKey });
 
   // Handlers
@@ -856,36 +902,4 @@ const App = () => {
                         topics={topics}
                         loading={loading}
                         onSelectTopic={handleTopicSelect}
-                        onBack={() => setView('subject')}
-                      />
-                    )}
-
-                    {view === 'notes' && (
-                      <NoteViewer 
-                        topic={selectedTopic}
-                        content={cleanResponse(notesContent)}
-                        loading={loading}
-                        onBack={() => setView('topics')}
-                      />
-                    )}
-                </>
-            )}
-            
-            {/* Settings View */}
-            {activeTab === 'settings' && <SettingsView />}
-
-            {/* Chat Overlay - Always mounted to preserve state, but hidden via CSS */}
-            <ChatOverlay 
-                isVisible={activeTab === 'chat'} 
-                apiKey={apiKey} 
-            />
-        </div>
-      </main>
-      
-      {view !== 'class' && <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />}
-    </div>
-  );
-};
-
-const root = createRoot(document.getElementById('root')!);
-root.render(<App />);
+                        
